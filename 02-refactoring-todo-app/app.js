@@ -1,20 +1,14 @@
+import { readTodosFromLocalStorage } from "./lib.js";
+import { saveTodosToLocalStorage } from "./lib.js";
+import { isDuplicate } from "./lib.js";
+import { getFilterValue } from "./lib.js";
+
 console.log("Hello Todo App!");
 
 let todos = [];
 const deleteTodosButton = document.querySelector("#delete-todos");
 const addTodoBtn = document.querySelector("#add-todo");
 const todoListEl = document.querySelector("#todo-list");
-
-function readTodosFromLocalStorage() {
-  const todosFromStorage = localStorage.getItem("todos");
-  if (todosFromStorage !== null) {
-    todos = JSON.parse(todosFromStorage);
-  }
-}
-
-function saveTodosToLocalStorage() {
-  localStorage.setItem("todos", JSON.stringify(todos));
-}
 
 function addNewTodo() {
   const newTodoEl = document.querySelector("#new-todo");
@@ -26,7 +20,7 @@ function addNewTodo() {
   }
 
   // duplicate check
-  if (isDuplicate(newTodoText)) {
+  if (isDuplicate(newTodoText, todos)) {
     return;
   }
 
@@ -37,7 +31,7 @@ function addNewTodo() {
   todos.push(newTodo);
 
   renderTodos();
-  saveTodosToLocalStorage();
+  saveTodosToLocalStorage(todos);
 
   newTodoEl.value = "";
 }
@@ -64,7 +58,9 @@ function renderTodos() {
 
     newTodoLiEl.todo = currentTodo;
 
-    const filterValue = getFilterValue();
+    const filterValue = getFilterValue(
+      '#todo-filter input[type="radio"]:checked'
+    );
     if (filterValue === "done") {
       newTodoLiEl.hidden = true;
     }
@@ -73,18 +69,6 @@ function renderTodos() {
   });
 
   filterTodos();
-}
-
-function isDuplicate(todo) {
-  todo = todo.toLowerCase();
-
-  for (let i = 0; i < todos.length; i++) {
-    const currentTodo = todos[i];
-    if (currentTodo.todo.toLowerCase() === todo) {
-      return true;
-    }
-  }
-  return false;
 }
 
 todoListEl.addEventListener("change", toggleTodoState);
@@ -98,13 +82,15 @@ function toggleTodoState(event) {
     checkbox.parentElement.todo.done = false;
   }
 
-  saveTodosToLocalStorage();
+  saveTodosToLocalStorage(todos);
 }
 
 const todoFilterEl = document.querySelector("#todo-filter");
 todoFilterEl.addEventListener("change", filterTodos);
 function filterTodos() {
-  const filterValue = getFilterValue();
+  const filterValue = getFilterValue(
+    '#todo-filter input[type="radio"]:checked'
+  );
 
   const todoListEl = document.querySelector("#todo-list");
   for (let i = 0; i < todoListEl.children.length; i++) {
@@ -119,21 +105,16 @@ function filterTodos() {
   }
 }
 
-function getFilterValue() {
-  return document.querySelector('#todo-filter input[type="radio"]:checked')
-    .value;
-}
-
 function deleteDoneTodos() {
   todos = todos.filter((todo) => todo.done === false);
-  saveTodosToLocalStorage();
+  saveTodosToLocalStorage(todos);
   renderTodos();
 }
 deleteTodosButton.addEventListener("click", deleteDoneTodos);
 
 function initTodoApp() {
-  readTodosFromLocalStorage();
-  renderTodos();
+  todos = readTodosFromLocalStorage(todos);
+  renderTodos(todos);
 }
 
 initTodoApp();
