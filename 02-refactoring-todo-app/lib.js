@@ -4,6 +4,8 @@ export function readTodosFromLocalStorage(toDos) {
     //return JSON.parse(todosFromStorage);
     toDos = JSON.parse(todosFromStorage);
     return toDos;
+  } else {
+    return [];
   }
 }
 
@@ -11,9 +13,13 @@ export function saveTodosToLocalStorage(toDos) {
   localStorage.setItem("todos", JSON.stringify(toDos));
 }
 
-export function isDuplicate(toDo, toDos) {
-  toDo = toDo.toLowerCase();
-
+export function isDuplicate(toDoInput, toDos) {
+  toDoInput = toDoInput.toLowerCase();
+  console.log(toDos);
+  return toDos
+    .map((currentToDo) => currentToDo.todo.toLowerCase())
+    .includes(toDoInput);
+  /*
   for (let i = 0; i < toDos.length; i++) {
     const currentTodo = toDos[i];
     if (currentTodo.todo.toLowerCase() === toDo) {
@@ -21,6 +27,7 @@ export function isDuplicate(toDo, toDos) {
     }
   }
   return false;
+*/
 }
 
 export function getFilterValue(selectorElement) {
