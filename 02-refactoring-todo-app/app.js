@@ -20,18 +20,16 @@ function addNewTodo() {
   }
 
   // duplicate check
-  if (isDuplicate(newTodoText, todos)) {
-    return;
+  if (!isDuplicate(newTodoText, todos)) {
+    const newTodo = {
+      todo: newTodoText,
+      done: false,
+    };
+    todos.push(newTodo);
+
+    renderTodos();
+    saveTodosToLocalStorage(todos);
   }
-
-  const newTodo = {
-    todo: newTodoText,
-    done: false,
-  };
-  todos.push(newTodo);
-
-  renderTodos();
-  saveTodosToLocalStorage(todos);
 
   newTodoEl.value = "";
 }
