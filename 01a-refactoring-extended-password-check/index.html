@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactoring Xtended Password Check</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <div class="input-container">
+            <input type="password" name="password1" id="password1">
+            <input type="password" name="password2" id="password2">
+            <button id="button">Check Passwords</button>
+        </div>
+        <div class="checking-container">
+            <p>Die Passwörter stimmen überein <span id="check-equal"></span></p>
+            <p>Die Passwörter sind mindestens 10 Zeichen lang. <span id="check-ten-chars"></span></p>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
