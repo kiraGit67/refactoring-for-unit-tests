@@ -1,0 +1,51 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  width: 100%;
+  max-width: 800px;
+  margin-inline: auto;
+  padding-inline: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-container,
+.checking-container {
+  width: 100%;
+}
+
+.input-container > *,
+.checking-container > * {
+  display: block;
+  width: 100%;
+}
+
+.input-container > * + * {
+  margin-top: 0.75rem;
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
